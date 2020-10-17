@@ -1,0 +1,18 @@
+{
+    "name": "Info Team",
+    "gcm_sender_id": "157390854906",
+    "short_name": "Info Team PWA",
+    "description": "Aplikasi PWA Info Team",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#00897B",
+    "theme_color": "#00897B",
+    "icons": [
+        {
+            "src": "icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+    
+}
