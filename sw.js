@@ -5,10 +5,14 @@ var urlsToCache = [
     "/index.html",
     "/article.html",
     "/pages/home.html",
+    "/pages/saved.html",
     "/css/materialize.min.css",
     "/js/materialize.min.js",
     "/js/nav.js",
     "/js/api.js",
+    "/js/db.js",
+    "/js/idb.js",
+    "/manifest.json",
     "/icon.png"
 
 ];

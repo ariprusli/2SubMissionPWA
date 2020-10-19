@@ -118,12 +118,22 @@
             saveForLater(article);
           });
         };
-
     });
 
+
+    
+
     document.addEventListener("DOMContentLoaded", function() {
-        getArticleById();
-      });
+          var item = getArticleById();
+
+          var delTeam = document.getElementById("delete");
+            delTeam.onclick = function() {
+              console.log("Tombol delete di klik.");
+              item.then(function(article){
+                deleteArticle(article);
+              });
+            }
+     });
     
     </script>
 
@@ -132,8 +142,10 @@
           <a class="btn-floating btn-large red" id="save">
           <i class="large material-icons">save</i>
           </a>
+          <a class="btn-floating btn-large red" id="delete">
+            <i class="large material-icons">delete</i>
+          </a>
       </div>
-    
 
 
   </body>
