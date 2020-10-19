@@ -19,6 +19,18 @@ function saveForLater(article){
     });
 }
 
+function deleteArticle(article){
+  dbPromise
+  .then(function(db) {
+    var tx = db.transaction("articles", "readwrite");
+    var store = tx.objectStore("articles");
+    store.delete("article");
+    return tx.complete;
+  }).then(function() {
+    console.log("Artikel berhasil dihapus.");
+  });
+}
+
 function getAll() {
     return new Promise(function(resolve, reject) {
       dbPromised
