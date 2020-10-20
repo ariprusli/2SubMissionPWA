@@ -25,10 +25,10 @@ function getArticles() {
     caches.match(base_url + "teams")
     .then(function(response) {
       if (response) {
-        response.json().then(function(data) {
-          var articlesHTML = "";
-          data.teams.forEach(function(article) {
-            articlesHTML += `
+        response.json().then((data) => {
+            var articlesHTML = "";
+            data.teams.forEach((article) => {
+              articlesHTML += `
                     <div class="card">
                         <a href="./article.html?id=${article.id}">
                           <div class="card-image waves-effect waves-block waves-light">
@@ -41,10 +41,10 @@ function getArticles() {
                         </div>
                     </div>
                 `;
+            });
+            // Sisipkan komponen card ke dalam elemen dengan id #content
+            document.getElementById("articles").innerHTML = articlesHTML;
           });
-          // Sisipkan komponen card ke dalam elemen dengan id #content
-          document.getElementById("articles").innerHTML = articlesHTML;
-        });
       }
     });
   }
@@ -61,8 +61,8 @@ function getArticles() {
 
       // Menyusun komponen card artikel secara dinamis
       var articlesHTML = "";
-      data.teams.forEach(function(article) {
-        articlesHTML += `
+      data.teams.forEach((article) => {
+          articlesHTML += `
               <div class="card">
                 <a href="./article.html?id=${article.id}">
                   <div class="card-image waves-effect waves-block waves-light">
@@ -75,7 +75,7 @@ function getArticles() {
                 </div>
               </div>
             `;
-      });
+        });
       // Sisipkan komponen card ke dalam elemen dengan id #content
       document.getElementById("articles").innerHTML = articlesHTML;
     })
@@ -83,17 +83,17 @@ function getArticles() {
 }
 
 function getArticleById() {
-  return new Promise(function(resolve, reject) {
-    // Ambil nilai query parameter (?id=)
-    var urlParams = new URLSearchParams(window.location.search);
-    var idParam = urlParams.get("id");
-    if ("caches" in window) {
-      caches.match(base_url + "teams/" + idParam).then(function(response) {
-        if (response) {
-          response.json().then(function(data) {
+  return new Promise((resolve, reject) => {
+      // Ambil nilai query parameter (?id=)
+      var urlParams = new URLSearchParams(window.location.search);
+      var idParam = urlParams.get("id");
+      if ("caches" in window) {
+        caches.match(base_url + "teams/" + idParam).then(function (response) {
+          if (response) {
+            response.json().then(function (data) {
 
-            console.log(data);
-            var articleHTML = `
+              console.log(data);
+              var articleHTML = `
             <div class="card">
               <div class="card-image waves-effect waves-block waves-light">
                 <img src="${data.crestUrl}" />
@@ -104,26 +104,26 @@ function getArticleById() {
               </div>
             </div>
           `;
-            
-            document.getElementById("body-content").innerHTML = articleHTML;
-            // Kirim objek data hasil parsing json agar bisa disimpan ke indexed db
-            resolve(data);
-          });
-        }
-      });
-    }
+
+              document.getElementById("body-content").innerHTML = articleHTML;
+              // Kirim objek data hasil parsing json agar bisa disimpan ke indexed db
+              resolve(data);
+            });
+          }
+        });
+      }
       fetch(base_url + "teams/" + idParam, {
-      headers: {
-        'X-Auth-Token': '41f6f1c817d14d6ea36e513375498e72'
-      },
-    })
+        headers: {
+          'X-Auth-Token': '41f6f1c817d14d6ea36e513375498e72'
+        },
+      })
         .then(status)
         .then(json)
-        .then(function(data) {
+        .then((data) => {
           // Objek JavaScript dari response.json() masuk lewat variabel data.
-        console.log(data);
+          console.log(data);
           // Menyusun komponen card artikel secara dinamis
-        var articleHTML = `
+          var articleHTML = `
             <div class="card">
                 <div class="card-image waves-effect waves-block waves-light">
                   <img src="${data.crestUrl}" />
@@ -135,22 +135,22 @@ function getArticleById() {
             </div>
             
           `;
-          
+
           // Sisipkan komponen card ke dalam elemen dengan id #content
           document.getElementById("body-content").innerHTML = articleHTML;
           // Kirim objek data hasil parsing json agar bisa disimpan ke indexed db
           resolve(data);
-      })
-  });
+        });
+    });
 } 
 
 function getSavedArticles(){
-  getAll().then(function(articles){
-    console.log(articles);
+  getAll().then((articles) => {
+      console.log(articles);
 
-    var articlesHTML = "";
-    articles.forEach(function(article){
-      articlesHTML += `
+      var articlesHTML = "";
+      articles.forEach(function (article) {
+        articlesHTML += `
       <div class="card">
       <a href="./article.html?id=${article.id}&saved=true">
         <div class="card-image waves-effect waves-block waves-light">
@@ -164,22 +164,23 @@ function getSavedArticles(){
     </div>
       `;
 
-    });
+      });
 
-    document.getElementById("articles").innerHTML = articlesHTML;
-  });
+      document.getElementById("articles").innerHTML = articlesHTML;
+    });
 }
 
-function getSavedArticleById() {
+async function getSavedArticleById() {
   var urlParams = new URLSearchParams(window.location.search);
   var idParam = urlParams.get("id");
   
-  getById(idParam).then(function(article) {
-    articleHTML = '';
-    var articleHTML = `
+  await getById(idParam)
+  .then((article) => {
+      articleHTML = '';
+      var articleHTML = `
     <div class="card">
       <div class="card-image waves-effect waves-block waves-light">
-        <img src="${article.crestUrl}" />
+      <img src="${article.crestUrl}" />
       </div>
       <div class="card-content">
         <span class="card-title">${article.name}</span>
@@ -187,7 +188,7 @@ function getSavedArticleById() {
       </div>
     </div>
   `;
-    
-    document.getElementById("body-content").innerHTML = articleHTML;
-  });
+
+      document.getElementById("body-content").innerHTML = articleHTML;
+    });
 }

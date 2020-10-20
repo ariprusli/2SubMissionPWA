@@ -20,7 +20,7 @@ function saveForLater(article){
 }
 
 function deleteArticle(article){
-  dbPromise
+  dbPromised
   .then(function(db) {
     var tx = db.transaction("articles", "readwrite");
     var store = tx.objectStore("articles");
@@ -45,17 +45,19 @@ function getAll() {
     });
   }
 
-function getById(id) {
+async function getById(id) {
     return new Promise(function(resolve, reject) {
-      dbPromised
-        .then(function(db) {
-          var tx = db.transaction("articles", "readonly");
-          var store = tx.objectStore("articles");
-          return store.get(id);
-        })
-        .then(function(article) {
-          resolve(article);
+      const data = dbPromised
+        .then((db) => {
+            var tx = db.transaction("articles", "readonly");
+            var store = tx.objectStore("articles");
+            return store.get(id);
+          })
+        .then(function(articles) {
+          resolve(articles);
         });
+
+        return data;
     });
   }
 
