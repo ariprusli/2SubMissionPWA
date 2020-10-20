@@ -19,12 +19,12 @@ function saveForLater(article){
     });
 }
 
-function deleteArticle(article){
+function deleteArticle(id){
   dbPromised
   .then(function(db) {
     var tx = db.transaction("articles", "readwrite");
     var store = tx.objectStore("articles");
-    store.delete("article");
+    store.delete(id);
     return tx.complete;
   }).then(function() {
     console.log("Artikel berhasil dihapus.");
@@ -45,19 +45,17 @@ function getAll() {
     });
   }
 
-async function getById(id) {
+  function getById(id) {
     return new Promise(function(resolve, reject) {
-      const data = dbPromised
-        .then((db) => {
-            var tx = db.transaction("articles", "readonly");
-            var store = tx.objectStore("articles");
-            return store.get(id);
-          })
-        .then(function(articles) {
-          resolve(articles);
+      dbPromised
+        .then(function(db) {
+          var tx = db.transaction("articles", "readonly");
+          var store = tx.objectStore("articles");
+          return store.get(id);
+        })
+        .then(function(article) {
+          resolve(article);
         });
-
-        return data;
     });
   }
 
