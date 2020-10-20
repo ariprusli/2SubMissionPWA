@@ -93,47 +93,41 @@
                             outputArray[i] = rawData.charCodeAt(i);
                         }
                         return outputArray;
-                    }
+                    }    
 
-
-      document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function() {
         
         var urlParams = new URLSearchParams(window.location.search);
         var isFromSaved = urlParams.get("saved");
 
         var btnSave = document.getElementById("save");
+        var btnDelete = document.getElementById("delete");
 
         if (isFromSaved){
 
           btnSave.style.display = 'none';
+          btnDelete.style.display = 'block';
 
           getSavedArticleById();
         }else{
+          btnSave.style.display = 'block';
+          btnDelete.style.display = 'none';
           var item = getArticleById();
         }
 
         btnSave.onclick = function(){
-          console.log("Tombol FAB di klik.");
+          console.log("Tombol save di klik.");
           item.then(function(article){
             saveForLater(article);
           });
         };
+
+        const idTeam = urlParams.get('id');
+        btnDelete.onclick = function(){
+          console.log("Tombol delete di klik.");
+            deleteArticle(parseInt(idTeam));
+        };
     });
-
-
-    
-
-    document.addEventListener("DOMContentLoaded", function() {
-          var item = getArticleById();
-
-          var delTeam = document.getElementById("delete");
-            delTeam.onclick = function() {
-              console.log("Tombol delete di klik.");
-              item.then(function(article){
-                deleteArticle(article);
-              });
-            }
-     });
     
     </script>
 
