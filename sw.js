@@ -13,7 +13,11 @@ var urlsToCache = [
     "/js/db.js",
     "/js/idb.js",
     "/manifest.json",
-    "/icon.png"
+    "/icon.png",
+    "https://unpkg.com/snarkdown@1.0.2/dist/snarkdown.umd.js",
+    "https://fonts.googleapis.com/icon?family=Material+Icons",
+    "https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2"
+    
 
 ];
 
@@ -27,6 +31,7 @@ self.addEventListener("install", function(event){
 
 self.addEventListener("fetch", function(event) {
   var base_url = "https://api.football-data.org/v2/";
+  base_url = base_url.replace(/^http:\/\//i, 'https://');
   if (event.request.url.indexOf(base_url) > -1) {
     event.respondWith(
       caches.open(CACHE_NAME).then(function(cache) {
@@ -69,7 +74,7 @@ self.addEventListener("activate", function(event) {
     }
     var options = {
       body: body,
-      icon: 'img/notification.png',
+      icon: 'icon.png',
       vibrate: [100, 50, 100],
       data: {
         dateOfArrival: Date.now(),
